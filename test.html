@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+ 
+<body>
+  <div id="wrapper" style="height: 500px; width: 500px; background-color: grey; margin: auto;overflow-y: scroll;">
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: pink;">Item</div>
+    <div style="height: 80; background-color: blue;">Item</div>
+  </div>
+</body>
+ 
+<script>
+  let scrollerWrapper = document.getElementById("wrapper");
+ 
+  let currPage = 1;
+  let dataLoading = false;
+ 
+  const apiRequest = (page) => {
+    return new Promise((reslove, reject) => {
+      let data = {
+        1: ["a", "b", "c", "d"],
+        2: ["a2", "b2", "c2", "d2"],
+        3: ["a3", "b3", "c3", "d3"],
+        4: ["a4", "b4", "c4", "d4"],
+        5: ["a5", "b5", "c5", "d5"],
+      }
+      setTimeout(() => {
+        reslove(data[page]);
+      }, 3000);
+    })
+  }
+ 
+  const fetchApi = (page) => {
+    dataLoading = true;
+    console.log("data is loading....");
+    // load data from api
+    apiRequest(page).then(res => {
+      console.log(page + ": " + res);
+      currPage++;
+    }).finally(() => {
+      dataLoading = false;
+      console.log("data is loaded.");
+    })
+  }
+ 
+  scrollerWrapper.addEventListener("scroll", () => {
+    const { clientHeight, scrollHeight, scrollTop } = scrollerWrapper;
+    if ((scrollHeight <= (scrollTop + clientHeight + 30)) && !dataLoading) {
+      fetchApi(currPage);
+    }
+  });
+ 
+  fetchApi(currPage);
+ 
+</script>
+ 
+</html>
